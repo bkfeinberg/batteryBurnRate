@@ -305,10 +305,14 @@ class BatteryBurnRateView extends WatchUi.DataField {
 			var calcRemain = systemStats.battery / burnRateAsNum;
 			//System.println("Time remaining is " + calcRemain + " with battery of " + systemStats.battery + " and burn of " + burnRateAsNum + " rate " + burnRate);
 			if (calculated_remain != null) {
-				if (calcRemain > 1) {
-					calculated_remain.setText(calcRemain.format("%.1f") + " hours left");
+				if (calcRemain < 80) {		// some kind of sanity check
+					if (calcRemain > 1) {
+						calculated_remain.setText(calcRemain.format("%.1f") + " hours left");
+					} else {
+						calculated_remain.setText((calcRemain*60).format("%.1f") + " minutes left");
+					}
 				} else {
-					calculated_remain.setText((calcRemain*60).format("%.1f") + " minutes left");
+					calculated_remain.setText("---");		
 				}
 			}
 		} else if (calculated_remain != null && (burnRateAsNum == null || burnRateAsNum == 0)) {
